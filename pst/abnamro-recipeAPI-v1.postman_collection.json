@@ -1,0 +1,958 @@
+{
+	"info": {
+		"_postman_id": "852f5a44-906b-422e-9b95-43632727abcd",
+		"name": "abnamro-recipeAPI-v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "326276"
+	},
+	"item": [
+		{
+			"name": "Recipe",
+			"item": [
+				{
+					"name": "RecipeAPI/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Recipe</th></tr>",
+									"    <tr><th>Key</th><th>Value</th></tr>",
+									"    <tr><td>ID</td><td>{{response.id}}</td></tr>",
+									"    <tr><td>Name</td><td>{{response.name}}</td></tr>",
+									"    <tr><td>Description</td><td>{{response.description}}</td></tr>",
+									"    <tr><td>Servant</td><td>{{response.servant}}</td></tr>",
+									"    <tr><td>Course</td><td>{{response.course}}</td></tr>",
+									"    <tr><td>SpecialDiet</td><td>{{response.specialDiet}}</td></tr>",
+									"  </table>",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Ingredients</th></tr>",
+									"    <tr><th>ID</th><th>Text</th></tr>",
+									"    {{#each response.recipeIngredients}}",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{text}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Instructions</th></tr>",
+									"    <tr><th>ID</th><th>Text</th></tr>",
+									"    {{#each response.recipeInstructions}}",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{text}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Recipe created is 201\",  () => {",
+									"    pm.response.to.have.status(201);",
+									"    let data = pm.response.json();",
+									"",
+									"    pm.globals.set(\"recipe_id\", data.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Artichoke Eggs Benedict\",\n    \"description\": \"This much quicker and easier to prepare version of the classic Eggs Benedict\",\n    \"servant\": \"4 serving\",\n    \"course\": \"MAIN_DISH\",\n    \"specialDiet\": \"FAT_FREE\",\n    \"recipeIngredients\": [\n        {\n            \"text\": \"bacon\"\n        },\n        {\n            \"text\": \"eggs\"\n        }\n    ],\n    \"recipeInstructions\": [\n        {\n            \"text\": \"Blend 2 cups of pineapple juice and 5/8 cup cream of coconut until smooth.\"\n        },\n        {\n            \"text\": \"Fill a glass with ice.\"\n        },\n        {\n            \"text\": \"Pour the pineapple juice and coconut mixture over ice.\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/recipe",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Recipe</th></tr>",
+									"    <tr><th>Key</th><th>Value</th></tr>",
+									"    <tr><td>ID</td><td>{{response.id}}</td></tr>",
+									"    <tr><td>Name</td><td>{{response.name}}</td></tr>",
+									"    <tr><td>Description</td><td>{{response.description}}</td></tr>",
+									"    <tr><td>Servant</td><td>{{response.servant}}</td></tr>",
+									"    <tr><td>Course</td><td>{{response.course}}</td></tr>",
+									"    <tr><td>SpecialDiet</td><td>{{response.specialDiet}}</td></tr>",
+									"  </table>",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Ingredients</th></tr>",
+									"    <tr><th>ID</th><th>Text</th></tr>",
+									"    {{#each response.recipeIngredients}}",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{text}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Instructions</th></tr>",
+									"    <tr><th>ID</th><th>Text</th></tr>",
+									"    {{#each response.recipeInstructions}}",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{text}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Recipe update is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"createdBy\": \"*unspecified*\",\n    \"modifiedBy\": \"SUPER\",\n    \"createdDate\": \"2022-09-13T16:03:25.241456\",\n    \"modifiedDate\": \"2022-09-13T17:51:08.227021\",\n    \"name\": \"Non-alcoholic Pina Colada\",\n    \"description\": \"This non-alcoholic pina colada is everyone's favorite!\",\n    \"servant\": \"3 serving\",\n    \"course\": \"SIDE_DISH\",\n    \"specialDiet\": \"HEALTHY\",\n    \"recipeIngredients\": [\n        {\n            \"id\": \"67954d78-b520-4eb6-becb-a9ffb453970a\",\n            \"recipe\": {\n                \"id\": \"5ce6dbc7-f933-47d1-88ca-4d16ad72c82a\"\n            },\n            \"text\": \"4 cups of apple juice\"\n        },\n        {\n            \"id\": \"c0710e2e-1861-440b-affc-98a065f966d3\",\n            \"recipe\": {\n                \"id\": \"5ce6dbc7-f933-47d1-88ca-4d16ad72c82a\"\n            },\n            \"text\": \"3/2 cup cream of milk\"\n        },\n        {\n            \"id\": \"c603494d-ea7b-4117-8774-9ad7ca39b894\",\n            \"recipe\": {\n                \"id\": \"5ce6dbc7-f933-47d1-88ca-4d16ad72c82a\"\n            },\n            \"text\": \"apple\"\n        }\n    ],\n    \"recipeInstructions\": [\n        {\"text\": \"Blend 2 cups of pineapple juice and 5/8 cup cream of coconut until smooth.\"},\n        {\"text\": \"Fill a glass with ice.\"},\n        {\"text\": \"Pour the pineapple juice and coconut mixture over ice.\"}\n        ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/recipe/{{recipe_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"{{recipe_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI ( GET )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Recipe</th></tr>",
+									"    <tr><th>Key</th><th>Value</th></tr>",
+									"    <tr><td>ID</td><td>{{response.id}}</td></tr>",
+									"    <tr><td>Name</td><td>{{response.name}}</td></tr>",
+									"    <tr><td>Description</td><td>{{response.description}}</td></tr>",
+									"    <tr><td>Servant</td><td>{{response.servant}}</td></tr>",
+									"    <tr><td>Course</td><td>{{response.course}}</td></tr>",
+									"    <tr><td>SpecialDiet</td><td>{{response.specialDiet}}</td></tr>",
+									"  </table>",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Ingredients</th></tr>",
+									"    <tr><th>ID</th><th>Text</th></tr>",
+									"    {{#each response.recipeIngredients}}",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{text}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Instructions</th></tr>",
+									"    <tr><th>ID</th><th>Text</th></tr>",
+									"    {{#each response.recipeInstructions}}",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{text}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Recipe get is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/recipe/{{recipe_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"{{recipe_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI/filter ( vegetarian is YES )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"6\">Recipe</th></tr>",
+									"    <tr>",
+									"        <td>ID</td>",
+									"        <td>Name</td>",
+									"        <td>Description</td>",
+									"        <td>Servant</td>",
+									"        <td>Course</td>",
+									"        <td>SpecialDiet</td>",
+									"    </tr> ",
+									"    {{#each response}}    ",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{description}}</td>",
+									"            <td>{{servant}}</td>",
+									"            <td>{{course}}</td>",
+									"            <td>{{specialDiet}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"",
+									"pm.test(\"Recipe filter ( vegetarian is YES ) is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/recipe/filter?vegetarian=YES",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "vegetarian",
+									"value": "YES"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI/filter ( vegetarian is NO )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"6\">Recipe</th></tr>",
+									"    <tr>",
+									"        <td>ID</td>",
+									"        <td>Name</td>",
+									"        <td>Description</td>",
+									"        <td>Servant</td>",
+									"        <td>Course</td>",
+									"        <td>SpecialDiet</td>",
+									"    </tr> ",
+									"    {{#each response}}    ",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{description}}</td>",
+									"            <td>{{servant}}</td>",
+									"            <td>{{course}}</td>",
+									"            <td>{{specialDiet}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Recipe filter ( vegetarian is NO ) is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/recipe/filter?vegetarian=NO",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "vegetarian",
+									"value": "NO"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI/filter ( servant is 1 )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"6\">Recipe</th></tr>",
+									"    <tr>",
+									"        <td>ID</td>",
+									"        <td>Name</td>",
+									"        <td>Description</td>",
+									"        <td>Servant</td>",
+									"        <td>Course</td>",
+									"        <td>SpecialDiet</td>",
+									"    </tr> ",
+									"    {{#each response}}    ",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{description}}</td>",
+									"            <td>{{servant}}</td>",
+									"            <td>{{course}}</td>",
+									"            <td>{{specialDiet}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Recipe filter ( servant is 1 ) is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/recipe/filter?servant=3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "servant",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI/filter ( ingredient contains [ice, juice] )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"6\">Recipe</th></tr>",
+									"    <tr>",
+									"        <td>ID</td>",
+									"        <td>Name</td>",
+									"        <td>Description</td>",
+									"        <td>Servant</td>",
+									"        <td>Course</td>",
+									"        <td>SpecialDiet</td>",
+									"    </tr> ",
+									"    {{#each response}}    ",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{description}}</td>",
+									"            <td>{{servant}}</td>",
+									"            <td>{{course}}</td>",
+									"            <td>{{specialDiet}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Recipe filter ( ingredient contains [ice, juice] ) is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/recipe/filter?ingredient=ice%3Bjuice",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "ingredient",
+									"value": "ice%3Bjuice"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI/filter ( ingredient not contains [-ice] )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"6\">Recipe</th></tr>",
+									"    <tr>",
+									"        <td>ID</td>",
+									"        <td>Name</td>",
+									"        <td>Description</td>",
+									"        <td>Servant</td>",
+									"        <td>Course</td>",
+									"        <td>SpecialDiet</td>",
+									"    </tr> ",
+									"    {{#each response}}    ",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{description}}</td>",
+									"            <td>{{servant}}</td>",
+									"            <td>{{course}}</td>",
+									"            <td>{{specialDiet}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Recipe filter ( ingredient not contains [-ice] ) is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/recipe/filter?ingredient=-ice",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "ingredient",
+									"value": "-ice"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI/filter ( instruction contains [mixture] )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"6\">Recipe</th></tr>",
+									"    <tr>",
+									"        <td>ID</td>",
+									"        <td>Name</td>",
+									"        <td>Description</td>",
+									"        <td>Servant</td>",
+									"        <td>Course</td>",
+									"        <td>SpecialDiet</td>",
+									"    </tr> ",
+									"    {{#each response}}    ",
+									"        <tr>",
+									"            <td>{{id}}</td>",
+									"            <td>{{name}}</td>",
+									"            <td>{{description}}</td>",
+									"            <td>{{servant}}</td>",
+									"            <td>{{course}}</td>",
+									"            <td>{{specialDiet}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Recipe filter ( instruction contains [mixture] ) is 200 \", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/recipe/filter?instruction=mixture",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "instruction",
+									"value": "mixture"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RecipeAPI ( DELETE )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Recipe - deleted\", function () {",
+									"  pm.response.to.have.status(204);",
+									"});",
+									"",
+									"setTimeout(() => {}, 10000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/recipe/{{recipe_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"recipe",
+								"{{recipe_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Author",
+			"item": [
+				{
+					"name": "Author - CREATE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Author</th></tr>",
+									"    <tr><th>Key</th><th>Value</th></tr>",
+									"      <tr><td>ID</td><td>{{response.id}}</td></tr>",
+									"      <tr><td>fullName</td><td>{{response.fullName}}</td></tr>",
+									"      <tr><td>createdBy</td><td>{{response.createdBy}}</td></tr>",
+									"      <tr><td>createdDate</td><td>{{response.createdDate}}</td></tr>",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Author findAll is 201\",  () => {",
+									"    pm.response.to.have.status(201);",
+									"    let data = pm.response.json();",
+									"",
+									"    pm.globals.set(\"recipe_id\", data.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-user-id",
+								"value": "{{x-user-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\": \"Test Recipe\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/author",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Author - GET",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Author</th></tr>",
+									"    <tr><th>Key</th><th>Value</th></tr>",
+									"    <tr><td>ID</td><td>{{response.id}}</td></tr>",
+									"    <tr><td>fullName</td><td>{{response.fullName}}</td></tr>",
+									"    <tr><td>createdBy</td><td>{{response.createdBy}}</td></tr>",
+									"    <tr><td>createdDate</td><td>{{response.createdDate}}</td></tr>",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/author/{{recipe_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author",
+								"{{recipe_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Author - LIST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var template = `",
+									"  <table>",
+									"    <tr><th colspan=\"2\">Author List</th></tr>",
+									"    <tr><th>ID</th><th>FullName</th></tr>",
+									"    {{#each response}}",
+									"      <tr><td>{{id}}</td><td>{{fullName}}</td></tr>",
+									"    {{/each}}",
+									"  </table>",
+									"`;",
+									"pm.visualizer.set(template, {",
+									"  response: jsonData",
+									"});",
+									"",
+									"pm.test(\"Author findAll is 200\",  () => {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/author",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Author - DEL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Author deleted is 204\",  () => {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/author/{{recipe_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author",
+								"{{recipe_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
