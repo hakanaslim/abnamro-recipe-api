@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 RUN addgroup --system javauser && \
     adduser -S -s /bin/false -G javauser javauser && \
     mkdir /app && \
