@@ -51,6 +51,18 @@ Recipe API allows users to manage their favorite recipes. Allows adding, updatin
 ### API Endpoints
 Local API - http://localhost:8080
 
+### Documentation
+- Swagger
+* [Swagger Page](http://127.0.0.1:8080/swagger-ui/index.html)
+
+## Postman Script
+Environment: * [root/pst/ABN-AMRO.postman_environment.json ]({{PROJECT_ROOT}}/pst/ABN-AMRO.postman_environment.json)
+
+Collection: * [root/pst/abnamro-recipeAPI-v1.postman_collection.json ]({{PROJECT_ROOT}}/pst/abnamro-recipeAPI-v1.postman_collection.json)
+
+## PlantUML
+Sequential UML: * [root/plantuml/recipe-sequence-diagram.puml ]({{PROJECT_ROOT}}/pst/ABN-AMRO.postman_environment.json)
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:
