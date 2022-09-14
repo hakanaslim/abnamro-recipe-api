@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: ABN AMRO Recipe API
+  datasource:
+    url: jdbc:postgresql://localhost:5432/abnamro?useUnicode=yes&characterEncoding=UTF-8
+    username: postgres
+    password: och2022
+    driverClassName: org.postgresql.Driver
+    hikari:
+      schema: recipedb
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    hibernate:
+      ddl-auto: validate
+      default_schema: ${spring.datasource.hikari.schema}
+  liquibase:
+    enabled: true
+    change-log: classpath:db/liquibase/changelog-master.xml
+    default-schema: ${spring.datasource.hikari.schema}
+
+server:
+  port: 8080
+  max-http-header-size: 48000
+  servlet:
+    context-path: /
+    session:
+      timeout: 1m
+  shutdown: graceful
+  ssl:
+    enabled: false
+
+management:
+  server:
+    base-path: /
+
+logging:
+  level:                                              #logging level can be one of one of trace, debug, info, warn, error, fatal, off
+    org:
+      zalando:
+        logbook: ERROR
+    root: DEBUG
+    com:
+      interview: DEBUG
