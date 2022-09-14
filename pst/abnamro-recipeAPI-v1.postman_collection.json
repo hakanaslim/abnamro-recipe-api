@@ -144,7 +144,6 @@
 									"  pm.response.to.have.status(200);",
 									"});",
 									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
@@ -225,7 +224,6 @@
 									"  pm.response.to.have.status(200);",
 									"});",
 									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
@@ -295,7 +293,6 @@
 									"  pm.response.to.have.status(200);",
 									"});",
 									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
@@ -370,7 +367,6 @@
 									"  pm.response.to.have.status(200);",
 									"});",
 									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
@@ -445,7 +441,6 @@
 									"  pm.response.to.have.status(200);",
 									"});",
 									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
@@ -520,7 +515,6 @@
 									"  pm.response.to.have.status(200);",
 									"});",
 									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
@@ -595,7 +589,6 @@
 									"  pm.response.to.have.status(200);",
 									"});",
 									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
@@ -670,7 +663,6 @@
 									"  pm.response.to.have.status(200);",
 									"});",
 									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
@@ -715,8 +707,6 @@
 									"pm.test(\"Recipe - deleted\", function () {",
 									"  pm.response.to.have.status(204);",
 									"});",
-									"",
-									"setTimeout(() => {}, 10000);",
 									""
 								],
 								"type": "text/javascript"
