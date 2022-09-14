@@ -1,0 +1,267 @@
+@startuml ABN-AMRO-Recipe-API
+
+title Recipe-API: create recipe scenario
+
+actor user #red
+participant "Web Client" as CL #lightgrey
+participant "Recipe API" as RS #lightgreen
+database "PostgreSQL\nRecipe-DB" as DB #blue
+
+group STEP-1: Add Recipe
+    CL   ->   RS       : create a new recipe
+    note left
+      http-Header:
+        x-user-id: {{(**user identity**)}}
+        Content-Type: application/json
+
+      http-POST ${**RS_URL**}/recipe
+      {
+          "name": "Artichoke Eggs Benedict",
+          "description": "This much quicker and easier to prepare version of the classic Eggs Benedict",
+          "servant": "4 serving",
+          "course": "MAIN_DISH",
+          "specialDiet": "FAT_FREE",
+          "recipeIngredients": [
+              {
+                  "text": "bacon"
+              },
+              {
+                  "text": "eggs"
+              }
+          ],
+          "recipeInstructions": [
+              {
+                  "text": "Blend 2 cups of pineapple juice and 5/8 cup cream of coconut until smooth."
+              },
+              {
+                  "text": "Fill a glass with ice."
+              },
+              {
+                  "text": "Pour the pineapple juice and coconut mixture over ice."
+              }
+          ]
+      }
+    end note
+
+    alt PreCondition: validate parameters
+        RS   ->   RS       : validate
+        note left
+            check if Id is empty
+            check if Name is empty
+            check if Servant is empty
+            check if Course is empty
+            check if SpecialDiet is empty
+        end note
+    end
+
+    alt Save: Persist payload on DB
+        RS   ->   DB : Transaction ( INSERT )
+        note left
+            {
+              "id": "{{Generated_New_UUID}}",
+              "name": "Artichoke Eggs Benedict",
+              "description": "This much quicker and easier to prepare version of the classic Eggs Benedict",
+              "servant": "4 serving",
+              "course": "MAIN_DISH",
+              "specialDiet": "FAT_FREE",
+              "recipeIngredients": [
+                  {
+                      "id": "{{Generated_New_UUID}}",
+                      "text": "bacon",
+                      "recipe": {
+                        "id": {{Recipe.id}}
+                      }
+                  },
+                  {
+                      "id": "{{Generated_New_UUID}}",
+                      "text": "eggs",
+                      "recipe": {
+                        "id": {{Recipe.id}}
+                      }
+                  }
+              ],
+              "recipeInstructions": [
+                  {
+                      "id": "{{Generated_New_UUID}}",
+                      "text": "Blend 2 cups of pineapple juice and 5/8 cup cream of coconut until smooth.",
+                      "recipe": {
+                        "id": {{Recipe.id}}
+                      }
+                  },
+                  {
+                      "id": "{{Generated_New_UUID}}",
+                      "text": "Fill a glass with ice.",
+                      "recipe": {
+                        "id": {{Recipe.id}}
+                      }
+                  },
+                  {
+                      "id": "{{Generated_New_UUID}}",
+                      "text": "Pour the pineapple juice and coconut mixture over ice.",
+                      "recipe": {
+                        "id": {{Recipe.id}}
+                      }
+                  }
+              ]
+            }
+        end note
+        RS   ->   CL  : Response
+        note left
+            ...
+        end note
+    else ELSE: continue...
+    end
+
+end group
+
+group STEP-2: Update Recipe
+    CL   ->   RS       : update a specified recipe
+    note left
+      http-Header:
+        x-user-id: {{(**user identity**)}}
+        Content-Type: application/json
+
+      http-PATCH ${**RS_URL**}/recipe
+      {
+          "id": "UUID",
+          "name": "Artichoke Eggs Benedict",
+          "description": "This much quicker and easier to prepare version of the classic Eggs Benedict",
+          "servant": "4 serving",
+          "course": "MAIN_DISH",
+          "specialDiet": "FAT_FREE",
+          "recipeIngredients": [
+              {
+                  "text": "bacon"
+              },
+              {
+                  "text": "eggs"
+              }
+          ],
+          "recipeInstructions": [
+              {
+                  "text": "Blend 2 cups of pineapple juice and 5/8 cup cream of coconut until smooth."
+              },
+              {
+                  "text": "Fill a glass with ice."
+              },
+              {
+                  "text": "Pour the pineapple juice and coconut mixture over ice."
+              }
+          ]
+      }
+    end note
+
+    alt PreCondition: validate parameters
+        RS   ->   RS       : validate
+        note left
+            check if Id is empty
+            check if Name is empty
+            check if Servant is empty
+            check if Course is empty
+            check if SpecialDiet is empty
+        end note
+    end
+
+    alt Save: Persist payload on DB
+        RS   ->   DB : Transaction ( UPDATE )
+        note left
+            ...
+        end note
+        RS   ->   CL  : Response
+        note left
+            PAYLOAD
+        end note
+    else ELSE: continue...
+    end
+
+end group
+
+group STEP-3: Get Recipe
+    CL   ->   RS       : get a recipe
+    note left
+      http-Header:
+        x-user-id: {{(**user identity**)}}
+        Content-Type: application/json
+
+      http-GET ${**RS_URL**}/recipe/{{ID}}
+    end note
+
+    alt get: Select From Statement on DB
+        RS   ->   DB : Transaction ( SELECT )
+        DB   ->   RS : Transaction ( CALLBACK )
+
+        note left
+            alt Condition: validate parameters
+                 check if recipe is NOT exists
+                 throw ResourceNotFoundException("Recipe not found with id :UUID")
+            end
+        end note
+
+        RS   ->   CL  : Response
+        note left
+            PAYLOAD
+        end note
+    else ELSE: continue...
+    end
+
+end group
+
+group STEP-4: Delete Recipe
+    CL   ->   RS       : delete a specified recipe
+    note left
+      http-Header:
+        x-user-id: {{(**user identity**)}}
+        Content-Type: application/json
+
+      http-DELETE ${**RS_URL**}/recipe/{{ID}}
+    end note
+
+    alt Validate: if the recipe is exists
+        RS   ->   DB : Transaction ( SELECT )
+        DB   ->   RS : Transaction ( CALLBACK )
+
+        note left
+            alt Condition: validate parameters
+                 check if recipe is NOT exists
+                 throw ResourceNotFoundException("Recipe not found with id :UUID")
+            end
+        end note
+    else ELSE: continue...
+    end
+
+    alt Delete: Delete payload on DB
+        RS   ->   DB : Transaction ( DELETE )
+        DB   ->   RS : Transaction ( CALLBACK )
+        RS   ->   CL : Response
+        note left
+            PAYLOAD
+        end note
+    else ELSE: continue...
+    end
+
+end group
+
+group STEP-5: Filter Recipe
+    CL   ->   RS       : delete a specified recipe
+    note left
+      http-Header:
+        x-user-id: {{(**user identity**)}}
+        Content-Type: application/json
+
+      http-GET ${**RS_URL**}/recipe?vegetarian=YES
+     [http-GET ${**RS_URL**}/recipe?vegetarian=NO]
+     [http-GET ${**RS_URL**}/recipe?servant=1]
+     [http-GET ${**RS_URL**}/recipe?ngredient=ice;juice]
+     [http-GET ${**RS_URL**}/recipe?ngredient=-ice]
+    end note
+
+    alt Filtering
+        RS   ->   DB : Transaction ( SELECT )
+        DB   ->   RS : Transaction ( CALLBACK )
+        RS   ->   CL : Response
+     end
+
+end group
+
+...
+@enduml
