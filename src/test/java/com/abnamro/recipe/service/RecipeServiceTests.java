@@ -181,7 +181,7 @@ class RecipeServiceTests {
                 .assertNext(actual -> {
                     assertNotNull(actual);
                     assertNotNull(actual.getId());
-                    assertTrue(actual.getSpecialDiet().equals(SpecialDietType.VEGETARIAN));
+                    assertEquals(actual.getSpecialDiet(), SpecialDietType.VEGETARIAN);
                 }).verifyComplete();
     }
 
@@ -199,7 +199,7 @@ class RecipeServiceTests {
                 .assertNext(actual -> {
                     assertNotNull(actual);
                     assertNotNull(actual.getId());
-                    assertFalse(actual.getSpecialDiet().equals(SpecialDietType.VEGETARIAN));
+                    assertNotEquals(actual.getSpecialDiet(), SpecialDietType.VEGETARIAN);
                 }).verifyComplete();
     }
 
