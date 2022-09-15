@@ -56,12 +56,14 @@ Local API - http://localhost:8080
 * [Swagger Page](http://127.0.0.1:8080/swagger-ui/index.html)
 
 ## Postman Script
-Environment: * [root/pst/ABN-AMRO.postman_environment.json ]({{PROJECT_ROOT}}/pst/ABN-AMRO.postman_environment.json)
+Environment: * [pst/ABN-AMRO.postman_environment.json ]({{PROJECT_ROOT}}/pst/ABN-AMRO.postman_environment.json)
 
-Collection: * [root/pst/abnamro-recipeAPI-v1.postman_collection.json ]({{PROJECT_ROOT}}/pst/abnamro-recipeAPI-v1.postman_collection.json)
+Collection: * [pst/abnamro-recipeAPI-v1.postman_collection.json ]({{PROJECT_ROOT}}/pst/abnamro-recipeAPI-v1.postman_collection.json)
 
 ## PlantUML
-Sequential UML: * [root/plantuml/recipe-sequence-diagram.puml ]({{PROJECT_ROOT}}/pst/ABN-AMRO.postman_environment.json)
+Sequential UML: * [plantuml/recipe-sequence-diagram.puml ](plantuml/recipe-sequence-diagram.puml)
+
+Sequential IMAGE: * [plantuml/ABN_AMRO_Recipe_API-Recipe_API__create_recipe_scenario.png ](plantuml/ABN_AMRO_Recipe_API-Recipe_API__create_recipe_scenario.png)
 
 ## Unit & Integration test
 Test result: * [root/pst/Test Results - All_in_abnamro-recipe-api.html ] ({{PROJECT_ROOT}}/pst/Test Results - All_in_abnamro-recipe-api.html)
